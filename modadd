@@ -65,8 +65,9 @@ moduledir=$(dirname $modulefile)
 if [ -f "$FILE" ]
 then
 echo -e 'setenv\t"'$VAR'"\t"'$PWD'/'$FILE'"' >> $modulefile
+echo -e 'setenv\t'$VAR'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
 else
 echo  -e 'setenv\t"'$VAR'"\t"'$FILE'"' >> $modulefile
+echo  -e 'setenv\t'$VAR'\t'$FILE'\t\t :was added to '$MODULE''
 fi
 module load $MODULE
-

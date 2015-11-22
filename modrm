@@ -57,6 +57,7 @@ cat $modulefile $moduledir/.$VERSION.bak >> $moduledir/.$VERSION.bak2
 sort $moduledir/.$VERSION.bak2 | uniq > $moduledir/.$VERSION.bak
 #echo "3"
 awk '$2!~"'$VAR'"' $modulefile > $modulefile.temp
+awk '$2~"'$VAR'"' $modulefile | xargs -I xx echo -e "xx \t\t :was removed  "
 #echo "4"
 mv $modulefile.temp $modulefile 
 #cleanup
