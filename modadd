@@ -1,0 +1,61 @@
+#!/bin/bash
+
+#ma is short for module add variable
+#I am basing it off of github commands git add but only using the first letter of each word
+#add a help message here
+
+scriptName="ma"
+function printUsage () {
+    cat <<EOF
+
+Synopsis
+
+    $scriptName [-h | --help] <modulename> <VariableNAME> <Filename>
+
+Description:
+	modulename: 	is the current module but does not include the version
+	VariableNAME:	is the variable you want to add to the module file
+	Path2File:	is the full path that you want the variable set to.
+
+Author
+
+    Andrew Severin, Genome Informatics Facilty, Iowa State University
+    severin@iastate.edu
+    26 January, 2015
+
+
+EOF
+}
+#need to have a check to see if the module already exists or rather the version of that module 
+#add modtype variable in prepgenome modules and software modules so that we can distinguish between the two.
+#for software modules it could prompt the user perhaps?
+#perhaps nothing for software or modtyp=software 
+#does software already exist? then copy important fields into new version
+#generic variable to file
+#genomic variable for text
+#mod commit maybe fore the variable to text?
+#mod add file is default?
+#mod add text
+#check to see if third input is a file then use that to do variable file vs text
+
+if [ $# -lt 3 ] ; then
+        printUsage
+        exit 0
+fi
+numparamsM2=$(expr $# - 2)
+MODULE=$1
+VAR=$2
+FILE=$3
+PWD=$(pwd -P)
+#my attempt to combine adding of directories and preexisting variables
+#DIR=$(echo "${BASH_ARGV[*]}" | cut -d " " -f -$numparamsM2)
+echo $DIR
+unset modulefile
+module load $MODULE
+#if modtype = genome
+#echo "" | awk 'BEGIN{OFS="\t"} {print "setenv","'$MODULE'""_""'$VAR'", "'$PWD'""/""'$FILE'"}' >> $modulefile
+#else
+#echo "" | awk 'BEGIN{OFS="\t"} {print "setenv","'$MODULE'""_""'$VAR'", "'$PWD'""/""'$FILE'"}' >> $modulefile
+echo  -e 'setenv\t"'$VAR'"\t"'$FILE'"' >> $modulefile
+module load $MODULE
+
