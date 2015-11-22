@@ -1,0 +1,3 @@
+#unset specific variables that will accumulate files every time a module is added
+unsetenv GENOMEFASTAS
+
