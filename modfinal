@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#this script will write out the module file into a resultsmodules folder with all the env variables set to be from the main file down
+#I thought about writing this as an automatic bonus but it may not actually work as not all modules are self contained or are meant to be
+#for projects and classes this will work beautifully
+#will have to give some thought on how to take an existing module file and rewrite it inside the folder you are in
+#cp modulefile
+#grab basename from each file for every variable
+#find the path to each of these
+#rewrite the variable with that path starting from the current directory
+#That should work 
+#then the module file is portable with the folder and can be used anywhere
+
