@@ -49,18 +49,15 @@ module load $MODULE
 modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1 | perl -pe 's/://')
 VERSION=$(basename $modulefile)
 moduledir=$(dirname $modulefile)
-echo $VERSION
-echo $VERSION
 
 #save all lines ever written to $modulefile incase of catastrophic deletion of original
-echo "1"
-echo $modulefile
+#echo "1"
 cat $modulefile $moduledir/.$VERSION.bak >> $moduledir/.$VERSION.bak2
-echo "2"
+#echo "2"
 sort $moduledir/.$VERSION.bak2 | uniq > $moduledir/.$VERSION.bak
-echo "3"
+#echo "3"
 awk '$2!~"'$VAR'"' $modulefile > $modulefile.temp
-echo "4"
+#echo "4"
 mv $modulefile.temp $modulefile 
 #cleanup
 rm $moduledir/.$VERSION.bak2

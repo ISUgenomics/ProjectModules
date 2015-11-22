@@ -57,13 +57,10 @@ module load $MODULE
 modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1| perl -pe 's/://')
 VERSION=$(basename $modulefile)
 moduledir=$(dirname $modulefile)
-echo $modulefile
-echo $VERSION
-echo $moduledir
+#echo $modulefile
+#echo $VERSION
+#echo $moduledir
 #if modtype = genome
-#echo "" | awk 'BEGIN{OFS="\t"} {print "setenv","'$MODULE'""_""'$VAR'", "'$PWD'""/""'$FILE'"}' >> $modulefile
-#else
-#echo "" | awk 'BEGIN{OFS="\t"} {print "setenv","'$MODULE'""_""'$VAR'", "'$PWD'""/""'$FILE'"}' >> $modulefile
 
 if [ -f "$FILE" ]
 then
