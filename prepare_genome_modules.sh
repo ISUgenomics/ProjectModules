@@ -54,7 +54,6 @@ setenv	GENOMEINTERVALS	${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.be
 setenv  GNAME         ${NAME}_${BUILD}
 setenv  GMAPDB        ${GSEQ}/${NAME}/${BUILD}/$GNAME
 setenv  modulefile	${GMOD}/${NAME}/${BUILD}
-setenv	moduledir	${GMOD}/${NAME}/
 setenv	VERSION		${BUILD}
 setenv  "${NAME}_${BUILD}_genome" ${GSEQ}/${NAME}/${BUILD}/
 setenv  "${NAME}_${BUILD}_GMAPDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
