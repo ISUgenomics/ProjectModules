@@ -15,7 +15,7 @@ Synopsis
 Description:
 	modulename: 	is the current module but does not include the version
 	VariableNAME:	is the variable you want to add to the module file
-	Path2File:	is the full path that you want the variable set to.
+	FileName:       is the name of the file or text you wish you put into a variable
 
 Author
 
@@ -47,15 +47,29 @@ MODULE=$1
 VAR=$2
 FILE=$3
 PWD=$(pwd -P)
+
 #my attempt to combine adding of directories and preexisting variables
 #DIR=$(echo "${BASH_ARGV[*]}" | cut -d " " -f -$numparamsM2)
-echo $DIR
+#echo $DIR
 unset modulefile
 module load $MODULE
+#Here are some required variables
+modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1| perl -pe 's/://')
+VERSION=$(basename $modulefile)
+moduledir=$(dirname $modulefile)
+echo $modulefile
+echo $VERSION
+echo $moduledir
 #if modtype = genome
 #echo "" | awk 'BEGIN{OFS="\t"} {print "setenv","'$MODULE'""_""'$VAR'", "'$PWD'""/""'$FILE'"}' >> $modulefile
 #else
 #echo "" | awk 'BEGIN{OFS="\t"} {print "setenv","'$MODULE'""_""'$VAR'", "'$PWD'""/""'$FILE'"}' >> $modulefile
+
+if [ -f "$FILE" ]
+then
+echo -e 'setenv\t"'$VAR'"\t"'$PWD'/'$FILE'"' >> $modulefile
+else
 echo  -e 'setenv\t"'$VAR'"\t"'$FILE'"' >> $modulefile
+fi
 module load $MODULE
 

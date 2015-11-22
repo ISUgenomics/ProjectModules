@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#ma is short for module add variable
+#I am basing it off of github commands git add but only using the first letter of each word
+#add a help message here
+
+scriptName="modrm"
+function printUsage () {
+    cat <<EOF
+
+Synopsis
+
+    $scriptName [-h | --help] <modulename> <VariableNAME> 
+
+Description:
+	modulename: 	is the current module but does not include the version
+	VariableNAME:	is the variable you want to remove from the module file
+
+Author
+
+    Andrew Severin, Genome Informatics Facilty, Iowa State University
+    severin@iastate.edu
+    26 January, 2015
+
+
+EOF
+}
+#need to have a check to see if the module already exists or rather the version of that module 
+#add modtype variable in prepgenome modules and software modules so that we can distinguish between the two.
+#for software modules it could prompt the user perhaps?
+#perhaps nothing for software or modtyp=software 
+#does software already exist? then copy important fields into new version
+#check to see if third input is a file then use that to do variable file vs text
+
+
+if [ $# -lt 2 ] ; then
+        printUsage
+        exit 0
+fi
+numparamsM2=$(expr $# - 2)
+MODULE=$1
+VAR=$2
+unset modulefile
+unset VERSION
+unset moduledir
+module load $MODULE
+
+#add a check to see if moduledir and modulefile exists in a module and if not add it using modadd
+modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1 | perl -pe 's/://')
+VERSION=$(basename $modulefile)
+moduledir=$(dirname $modulefile)
+echo $VERSION
+echo $VERSION
+
+#save all lines ever written to $modulefile incase of catastrophic deletion of original
+echo "1"
+echo $modulefile
+cat $modulefile $moduledir/.$VERSION.bak >> $moduledir/.$VERSION.bak2
+echo "2"
+sort $moduledir/.$VERSION.bak2 | uniq > $moduledir/.$VERSION.bak
+echo "3"
+awk '$2!~"'$VAR'"' $modulefile > $modulefile.temp
+echo "4"
+mv $modulefile.temp $modulefile 
+#cleanup
+rm $moduledir/.$VERSION.bak2
+
+module load $MODULE
+
