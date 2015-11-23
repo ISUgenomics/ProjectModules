@@ -1,0 +1,196 @@
+#!/bin/bash
+
+#set default directories for different types of modules
+#may consider putting this into a .mod_config file in user's home directory
+
+#software
+SOFTMODDIR=/data003/GIF/software/modules/
+#Project
+PROJMODDIR=/data003/GIF/project/modules
+#GENOME
+GENMODDIR=/data003/GIF/genomes/modules/
+#USER
+USERMODDIR=/data003/GIF/user/modules
+
+
+
+OPTIONS=":spug"
+count=0
+while getopts $OPTIONS option
+        do
+#software module
+                case $option in
+                s)
+		modtype="S"
+		DIR=$SOFTMODDIR
+		echo "You have started a Software Module"
+		count=$(( $count + 1))
+		;;
+#Project Module
+                p)
+                modtype="P"
+		DIR=$PROJMODDIR
+		echo "You have started a Project Module"
+                count=$(($count+1))
+		;;
+#User Module
+                u)
+		echo "You have started a User Module"
+		DIR=$USERMODDIR
+                count=$(($count+1))
+                modtype="U"
+		;;
+#Genome Module
+                g)
+		echo "You have started a Genome Module" 
+                count=$(($count+1))
+		DIR=$GENMODDIR
+		modtype="G"
+                ;;
+                esac
+
+        done
+shift $((OPTIND-1))
+if [[ $count > 1 ]]; then
+   echo "error, cannot initiate multiple types of modules" >&2
+   exit 1
+fi
+
+#check to see if the module already exists
+function checkexists  {
+if [[ -f $DIR/$PROG/$BUILD ]]; then
+        echo "This module already exists! Replace? (yes/no)"
+        read  replace
+        if [[ $replace != "yes" ]]; then
+                exit
+        fi
+fi
+}
+
+#Software Module
+if [[ $modtype == "S" ]]; then
+		#full path of  current working directory
+		fcwd=$(pwd)
+		#just the current directory name
+		cwd=$(basename $fcwd)
+		#the Full path of parent directory of current working directory
+		fpcwd=$(dirname $fcwd)
+		#Just the name of the parent directory
+		pcwd=$(basename $fpcwd)
+		BUILD=$cwd
+		PROG=$pcwd		
+		checkexists 
+		echo "Please provide a description of this project/software/genome/user and hit enter"
+                read description
+                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
+                read website
+                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
+                read download
+
+
+
+		echo "Your module has been written to $DIR/$PROG/$BUILD"
+
+fi
+
+#Project Module
+if [[ $modtype == "P" ]]; then
+                checkexists 
+		#full path of  current working directory
+                fcwd=$(pwd)
+                #just the current directory name
+                cwd=$(basename $fcwd)
+                #the Full path of parent directory of current working directory
+                fpcwd=$(dirname $fcwd)
+                #Just the name of the parent directory
+                pcwd=$(basename $fpcwd)
+                BUILD=$cwd
+                PROG=$pcwd
+
+                echo "Please provide a description of this project/software/genome/user and hit enter"
+                read description
+                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
+                read website
+                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
+                read download
+                echo date
+		echo "Your module has been written to $DIR/$PROG/$BUILD"
+fi
+#User Module
+if [[ $modtype == "U" ]]; then
+		checkexists
+                echo "Please provide a description of this project/software/genome/user and hit enter"
+                read description
+                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
+                read website
+                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
+                read download
+                echo date
+
+fi
+#Genome Module
+if [[ $modtype == "G" ]]; then
+		checkexists
+                echo "Please provide a description of this project/software/genome/user and hit enter"
+                read description
+                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
+                read website
+                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
+                read download
+                echo date
+
+fi
+#Get Program and Build from current working directory
+#assumes that you are in
+#software/version directory
+#PI/project
+#so need to put them up above
+#Genome and User modules are special cases and will need to be handled differently
+
+
+#generic module file
+mkdir -p $DIR/$PROG
+BUILD2=$(echo ${BUILD//./p})
+
+cat << MODFILE > $DIR/$PROG/$BUILD
+#%Module1.0#####################################################################
+##
+setenv	${PROG}_${BUILD2}_modulefile    "$DIR/$PROG/$BUILD"
+setenv	${PROG}_${BUILD2}_version       $BUILD
+setenv	${PROG}_${BUILD2}_name		$PROG
+setenv  ${PROG}_${BUILD2}_description   "$description"
+setenv  ${PROG}_${BUILD2}_website       "$website"
+setenv  ${PROG}_${BUILD2}_download      "$download"
+setenv  ${PROG}_${BUILD2}_createdate    $(date '+%m/%d/%y_%H:%M:%S')
+setenv  ${PROG}_${BUILD2}_creator       $(whoami)
+setenv	test	test
+MODFILE
+
+
+
+#setenv     version         12-21-07
+#setenv     name            CAP3
+#setenv     progdir         $DIR/$PROG/$BUILD
+
+# modules that are needed for this program
+#module load gcc
+
+# comment out lines that aren't required
+#prepend-path    PATH                    $progdir
+
+
+
+
+#will call print out command for prepare genome module and ask to submit to a queue or does it prepare the submission script?
+
+
+#if statement software
+#find bin directories and other important directories and prepend to PATH in  software module
+
+#if statement project
+#get user ID to have a creator variable 
+#get date for creation date flag
+
+#if statement Genome
+
+
