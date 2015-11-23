@@ -55,19 +55,36 @@ unset modulefile
 module load $MODULE
 #Here are some required variables
 modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1| perl -pe 's/://')
-VERSION=$(basename $modulefile)
+BUILD=$(basename $modulefile)
 moduledir=$(dirname $modulefile)
 #echo $modulefile
 #echo $VERSION
 #echo $moduledir
 #if modtype = genome
+BUILD2=$(echo ${BUILD//./p})
 
 if [ -f "$FILE" ]
 then
-echo -e 'setenv\t"'$VAR'"\t"'$PWD'/'$FILE'"' >> $modulefile
-echo -e 'setenv\t'$VAR'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
+cat << MODFILE >> $modulefile
+setenv	${MODULE}_${BUILD2}_${VAR}	$PWD/${FILE}
+MODFILE
+
+echo -e 'setenv\t'${MODULE}_${BUILD}_${VAR}'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
 else
-echo  -e 'setenv\t"'$VAR'"\t"'$FILE'"' >> $modulefile
-echo  -e 'setenv\t'$VAR'\t'$FILE'\t\t :was added to '$MODULE''
+cat << MODFILE >> $modulefile
+setenv  ${MODULE}_${BUILD2}_${VAR}       ${FILE}
+MODFILE
+echo  -e 'setenv\t'$MODULE'_'$BUILD'_'$VAR'\t'$FILE'\t\t :was added to '$MODULE''
 fi
+
+#then
+#echo -e 'setenv\t"'$MODULE'"_"'$BUILD'"_"'$VAR'"\t"'$PWD'/'$FILE'"' >> $modulefile
+#echo -e 'setenv\t'$MODULE'_'$BUILD'_'$VAR'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
+#else
+#echo  -e 'setenv\t"'$MODULE'"_"'$BUILD'"_"'$VAR'"\t"'$FILE'"' >> $modulefile
+#echo  -e 'setenv\t'$MODULE'_'$BUILD'_'$VAR'\t'$FILE'\t\t :was added to '$MODULE''
+
+
+
+
 module load $MODULE
