@@ -70,7 +70,7 @@ fi
 #Software Module
 if [[ $modtype == "S" ]]; then
 		#full path of  current working directory
-		fcwd=$(pwd)
+		fcwd=$(pwd -P)
 		#just the current directory name
 		cwd=$(basename $fcwd)
 		#the Full path of parent directory of current working directory
@@ -97,7 +97,7 @@ fi
 if [[ $modtype == "P" ]]; then
                 checkexists 
 		#full path of  current working directory
-                fcwd=$(pwd)
+                fcwd=$(pwd -P)
                 #just the current directory name
                 cwd=$(basename $fcwd)
                 #the Full path of parent directory of current working directory
@@ -163,7 +163,7 @@ setenv  ${PROG}_${BUILD2}_website       "$website"
 setenv  ${PROG}_${BUILD2}_download      "$download"
 setenv  ${PROG}_${BUILD2}_createdate    $(date '+%m/%d/%y_%H:%M:%S')
 setenv  ${PROG}_${BUILD2}_creator       $(whoami)
-setenv	test	test
+setenv  ${PROG}_${BUILD2}_dir		$(pwd -P)
 MODFILE
 
 
