@@ -74,8 +74,10 @@ MODULEFILE
 
 
 # Create Fasta files from GFF file
+if [ $# -eq 4 ] ; then
 /data005/GIF2/severin/isugif/common_scripts/gff2fasta.pl ${REF} ${GFF} ${NAME}_${BUILD}
 mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
+fi
 
 # build index for GSNAP, Bowtie2, BWA and SAMTOOLS
 module unload perl
