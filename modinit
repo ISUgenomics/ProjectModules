@@ -3,14 +3,16 @@
 #set default directories for different types of modules
 #may consider putting this into a .mod_config file in user's home directory
 
+BASE=/data003/GIF/
+#BASE=/data006a/GIF_2a/
 #software
-SOFTMODDIR=/data003/GIF/software/modules/
+SOFTMODDIR=$BASE/software/modules/
 #Project
-PROJMODDIR=/data003/GIF/project/modules
+PROJMODDIR=$BASE/project/modules
 #GENOME
-GENMODDIR=/data003/GIF/genomes/modules/
+GENMODDIR=$BASE/genomes/modules/
 #USER
-USERMODDIR=/data003/GIF/user/modules
+USERMODDIR=$BASE/user/modules
 
 
 
