@@ -107,7 +107,7 @@ java -Xmx100G -jar $PICARD/picard.jar BedToIntervalList \
 
 #move reference and GFF file to genome module locations
 
-mv ${REF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fasta
-mv ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
+cp ${REF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fasta
+cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 
 
