@@ -43,7 +43,7 @@ USERMODDIR=$BASE/user/modules
 
 
 
-OPTIONS=":spug"
+OPTIONS=":hspug"
 count=0
 while getopts $OPTIONS option
         do
@@ -76,6 +76,10 @@ while getopts $OPTIONS option
 		DIR=$GENMODDIR
 		modtype="G"
                 ;;
+#help
+		h)
+		printUsage
+		;;
                 esac
 
         done
