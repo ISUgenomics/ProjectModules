@@ -3,6 +3,33 @@
 #set default directories for different types of modules
 #may consider putting this into a .mod_config file in user's home directory
 
+scriptName="modinit"
+function printUsage () {
+    cat <<EOF
+
+Synopsis
+
+    $scriptName [-h | --help] [-s -p]
+
+Description:
+        -s:     to start a software module 	modinit -s
+	-p:	to start a project module	modinit -p
+Author
+
+    Andrew Severin, Genome Informatics Facilty, Iowa State University
+    severin@iastate.edu
+    26 January, 2015
+
+
+EOF
+}
+
+
+if [ $# -lt 1 ] ; then
+        printUsage
+        exit 0
+fi
+
 BASE=/data003/GIF/
 #BASE=/data006a/GIF_2a/
 #software
