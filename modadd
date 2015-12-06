@@ -63,6 +63,10 @@ moduledir=$(dirname $modulefile)
 #if modtype = genome
 BUILD2=$(echo ${BUILD//./p})
 
+#remove periods and dashes that setenv will error on
+VAR=$(echo $VAR | perl -pe 's/[-\.]/_/g')
+
+
 if [ -f "$FILE" ]
 then
 cat << MODFILE >> $modulefile
@@ -72,7 +76,7 @@ MODFILE
 echo -e 'setenv\t'${MODULE}_${BUILD}_${VAR}'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
 else
 cat << MODFILE >> $modulefile
-setenv  ${MODULE}_${BUILD2}_${VAR}       ${FILE}
+setenv  ${MODULE}_${BUILD2}_${VAR}       "${FILE}"
 MODFILE
 echo  -e 'setenv\t'$MODULE'_'$BUILD'_'$VAR'\t'$FILE'\t\t :was added to '$MODULE''
 fi
