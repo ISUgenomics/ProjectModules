@@ -24,7 +24,6 @@ Author
 EOF
 }
 
-
 if [ $# -lt 1 ] ; then
         printUsage
         exit 0
@@ -113,11 +112,11 @@ if [[ $modtype == "S" ]]; then
 		BUILD=$cwd
 		PROG=$pcwd		
 		checkexists 
-		echo "Please provide a description of this project/software/genome/user and hit enter"
+		echo "Please provide a description of this software and hit enter"
                 read description
-                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
+                echo "Please specify any website/wiki associated with this software and hit enter"
                 read website
-                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
+                echo "Please specify the site you downloaded this software and hit enter"
                 read download
 
 
@@ -140,11 +139,11 @@ if [[ $modtype == "P" ]]; then
                 BUILD=$cwd
                 PROG=$pcwd
 
-                echo "Please provide a description of this project/software/genome/user and hit enter"
+                echo "Please provide a description of this project and hit enter"
                 read description
-                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
+                echo "Please specify any website/wiki associated with this project and hit enter"
                 read website
-                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
+                echo "Please specify the site you downloaded this project and hit enter"
                 read download
                 echo date
 		echo "Your module has been written to $DIR/$PROG/$BUILD"
@@ -199,14 +198,43 @@ setenv  ${PROG}_${BUILD2}_creator       $(whoami)
 setenv  ${PROG}_${BUILD2}_dir		$(pwd -P)
 MODFILE
 
+#these next lines are primarily for the software module creation 
+
+if [[ -d $(pwd -P)/bin ]]; then
+cat << MODFILE >> $DIR/$PROG/$BUILD
+prepend-path	PATH	$(pwd -P)/bin
+MODFILE
+fi
+if [[ -d $(pwd -P)/share/man ]]; then
+cat << MODFILE >> $DIR/$PROG/$BUILD
+prepend-path	MANPATH	$(pwd -P)/share/man
+MODFILE
+fi
+
+if [[ -d $(pwd -P)/lib ]]; then
+cat << MODFILE >> $DIR/$PROG/$BUILD
+prepend-path    LD_LIBRARY_PATH         $(pwd -P)/lib
+prepend-path    LIBRARY_PATH         $(pwd -P)/lib
+MODFILE
+fi
+
+if [[ -d $(pwd -P)/include ]]; then
+cat << MODFILE >> $DIR/$PROG/$BUILD     
+prepend-path    C_INCLUDE_PATH          $(pwd -P)/include
+prepend-path    CPLUS_INCLUDE_PATH      $(pwd -P)/include
+MODFILE
+fi
 
 
-#setenv     version         12-21-07
-#setenv     name            CAP3
-#setenv     progdir         $DIR/$PROG/$BUILD
+if [[ -d $(pwd -P)/lib/pkgconfig ]]; then
+cat << MODFILE >> $DIR/$PROG/$BUILD     
+prepend-path    PKG_CONFIG_PATH         $(pwd -P)/lib/pkgconfig
+MODFILE
+fi
 
 # modules that are needed for this program
 #module load gcc
+#how to add modules in modadd command perhaps
 
 # comment out lines that aren't required
 #prepend-path    PATH                    $progdir

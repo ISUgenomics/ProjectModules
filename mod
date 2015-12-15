@@ -41,14 +41,17 @@ GENMODDIR=$BASE/genomes/modules/
 #USER
 USERMODDIR=$BASE/user/modules
 
-if [ "$1"="rm" ]; then 
-	modrm $#
+if [ "$1" = "rm" ]; then 
+	shift;
+	modrm $@
 fi
 
-if [ "$1"="add" ]; then
-        modadd $#
+if [ "$1" = "add" ]; then
+	shift;
+        modadd $@
 fi
 
-if [ "$1"="init" ]; then
-        modinit $#
+if [ "$1" = "init" ]; then
+	shift;
+        modinit $@
 fi

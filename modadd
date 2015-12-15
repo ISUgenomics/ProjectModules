@@ -21,7 +21,7 @@ Author
 
     Andrew Severin, Genome Informatics Facilty, Iowa State University
     severin@iastate.edu
-    26 January, 2015
+    1 December, 2015
 
 
 EOF
@@ -45,7 +45,8 @@ fi
 numparamsM2=$(expr $# - 2)
 MODULE=$1
 VAR=$2
-FILE=$3
+shift;shift
+FILE=$@
 PWD=$(pwd -P)
 
 #my attempt to combine adding of directories and preexisting variables
@@ -57,6 +58,7 @@ module load $MODULE
 modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1| perl -pe 's/://')
 BUILD=$(basename $modulefile)
 moduledir=$(dirname $modulefile)
+modulename=$(basename $moduledir)
 #echo $modulefile
 #echo $VERSION
 #echo $moduledir
@@ -66,19 +68,20 @@ BUILD2=$(echo ${BUILD//./p})
 #remove periods and dashes that setenv will error on
 VAR=$(echo $VAR | perl -pe 's/[-\.]/_/g')
 
-
+#check to see if it is a file
 if [ -f "$FILE" ]
 then
 cat << MODFILE >> $modulefile
-setenv	${MODULE}_${BUILD2}_${VAR}	$PWD/${FILE}
+setenv	${modulename}_${BUILD2}_${VAR}	$PWD/${FILE}
 MODFILE
 
-echo -e 'setenv\t'${MODULE}_${BUILD}_${VAR}'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
+echo -e 'setenv\t'${modulename}_${BUILD}_${VAR}'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
 else
+#if it is not a file then add the environmental variable as text
 cat << MODFILE >> $modulefile
-setenv  ${MODULE}_${BUILD2}_${VAR}       "${FILE}"
+setenv  ${modulename}_${BUILD2}_${VAR}       "${FILE}"
 MODFILE
-echo  -e 'setenv\t'$MODULE'_'$BUILD'_'$VAR'\t'$FILE'\t\t :was added to '$MODULE''
+echo  -e 'setenv\t'$modulename'_'$BUILD'_'$VAR'\t'$FILE'\t\t :was added to '$MODULE''
 fi
 
 #then
