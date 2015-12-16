@@ -163,14 +163,8 @@ fi
 #Genome Module
 if [[ $modtype == "G" ]]; then
 		checkexists
-                echo "Please provide a description of this project/software/genome/user and hit enter"
-                read description
-                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
-                read website
-                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
-                read download
-                echo date
-
+		prepare_genome_modules.sh $@
+		exit;
 fi
 #Get Program and Build from current working directory
 #assumes that you are in
