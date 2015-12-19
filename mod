@@ -52,6 +52,11 @@ if [ "$1" = "add" ]; then
         modadd $@
 fi
 
+if [ "$1" = "modprepend" ]; then
+        shift;
+        modprepend $@
+fi
+
 if [ "$1" = "init" ]; then
 	shift;
         modinit $@

@@ -10,12 +10,12 @@ function printUsage () {
 
 Synopsis
 
-    $scriptName [-h | --help] <modulename> <VariableNAME> <Filename>
+    $scriptName [-h | --help] <modulename> <VariableNAME> <DirName>
 
 Description:
 	modulename: 	is the current module but does not include the version
 	VariableNAME:	is the variable you want to add to the module file
-	FileName:       is the name of the file or text you wish you put into a variable
+	DirName:       is the name of the directory or text you wish you put into a variable
 
 Author
 
