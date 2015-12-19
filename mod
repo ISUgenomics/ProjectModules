@@ -13,6 +13,7 @@ The most commonly used mod commands are:
 	init:		Initialize a software, project, user or genome module
         add:		Add an environmental variable to a module    
 	rm:		Remove an environmental variable from a module
+	prepend:	Add Prepend statement for a directory to a variable such as PATH, LIB, PERL5_LIB, LD_LIBRARY_PATH etc
 
 Author
 
