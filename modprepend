@@ -72,7 +72,7 @@ VAR=$(echo $VAR | perl -pe 's/[-\.]/_/g')
 if [ -f "$FILE" ]
 then
 cat << MODFILE >> $modulefile
-prepend	${VAR}	$PWD/${FILE}
+prepend-path	${VAR}	$PWD/${FILE}
 MODFILE
 echo -e 'prepend\t'${VAR}'\t'$PWD'/'$FILE'\t\t :was added to '$MODULE''
 else
