@@ -52,7 +52,7 @@ if [ "$1" = "add" ]; then
         modadd $@
 fi
 
-if [ "$1" = "modprepend" ]; then
+if [ "$1" = "prepend" ]; then
         shift;
         modprepend $@
 fi
