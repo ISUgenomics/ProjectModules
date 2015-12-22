@@ -15,10 +15,13 @@ Description:
         -s:     to start a software module 	modinit -s
 	-p:	to start a project module	modinit -p
 	-g:	to start a genome module	modinit -g
+	-u:	to start a user module		modinit -u
 
-Software modules:	Version control for Software. Standard use of unix modules made easy.
-Project modules:	Version control for Projects. Create env variables for important files or directories.  Summarize project.	
-Genome Module		Version control for Genomes.  Creates commonly used databases and useful fasta files from genome and GFF.
+Software Modules:	Version control for Software. Standard use of unix modules made easy.
+Project Modules:	Version control for Projects. Create env variables for important files or directories.  Summarize project.	
+Genome Module:		Version control for Genomes.  Creates commonly used databases and useful fasta files from genome and GFF.
+User Module:		Version control for Users. Sets MODBASE variable, offloads environmental variables to a loadable module instead of .bashrc
+
 Author
 
     Andrew Severin, Genome Informatics Facilty, Iowa State University
