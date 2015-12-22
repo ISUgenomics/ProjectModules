@@ -26,17 +26,6 @@ Author
 
 EOF
 }
-#need to have a check to see if the module already exists or rather the version of that module 
-#add modtype variable in prepgenome modules and software modules so that we can distinguish between the two.
-#for software modules it could prompt the user perhaps?
-#perhaps nothing for software or modtyp=software 
-#does software already exist? then copy important fields into new version
-#generic variable to file
-#genomic variable for text
-#mod commit maybe fore the variable to text?
-#mod add file is default?
-#mod add text
-#check to see if third input is a file then use that to do variable file vs text
 
 if [ $# -lt 3 ] ; then
         printUsage
@@ -49,9 +38,6 @@ shift;shift
 FILE=$@
 PWD=$(pwd -P)
 
-#my attempt to combine adding of directories and preexisting variables
-#DIR=$(echo "${BASH_ARGV[*]}" | cut -d " " -f -$numparamsM2)
-#echo $DIR
 unset modulefile
 module load $MODULE
 #Here are some required variables
@@ -59,10 +45,6 @@ modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1| perl -pe 's/://')
 BUILD=$(basename $modulefile)
 moduledir=$(dirname $modulefile)
 modulename=$(basename $moduledir)
-#echo $modulefile
-#echo $VERSION
-#echo $moduledir
-#if modtype = genome
 BUILD2=$(echo ${BUILD//./p})
 
 #remove periods and dashes that setenv will error on

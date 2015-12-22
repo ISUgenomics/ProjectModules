@@ -25,12 +25,6 @@ Author
 
 EOF
 }
-#need to have a check to see if the module already exists or rather the version of that module 
-#add modtype variable in prepgenome modules and software modules so that we can distinguish between the two.
-#for software modules it could prompt the user perhaps?
-#perhaps nothing for software or modtyp=software 
-#does software already exist? then copy important fields into new version
-#check to see if third input is a file then use that to do variable file vs text
 
 
 if [ $# -lt 2 ] ; then
