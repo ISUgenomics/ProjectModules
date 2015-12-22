@@ -4,7 +4,7 @@
 #I am basing it off of github commands git add but only using the first letter of each word
 #add a help message here
 
-scriptName="modrm"
+scriptName="mod rm"
 function printUsage () {
     cat <<EOF
 
