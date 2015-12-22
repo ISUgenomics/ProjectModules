@@ -38,10 +38,10 @@ if [ -z "$MODBASE" ]; then
 	echo "Your MODBASE varaible that specifies the directory for your module files is not set"
 	echo "please module load user or set your module files base directory now"
 	read  MODBASE
-	[[ -d $MODBASE/software/modules/ ]] || mkdir $MODBASE/software/modules/
-	[[ -d $MODBASE/project/modules/ ]] || mkdir $MODBASE/project/modules
-	[[ -d $MODBASE/genomes/modules/ ]] || mkdir $MODBASE/genomes/modules/
-	[[ -d $MODBASE/user/modules/ ]] || mkdir $MODBASE/user/modules
+	[[ -d $MODBASE/software/modules/ ]] || mkdir $MODBASE/software/modules;echo "$MODBASE/software/modules was created"
+	[[ -d $MODBASE/project/modules/ ]] || mkdir $MODBASE/project/modules;echo "$MODBASE/project/modules was created"
+	[[ -d $MODBASE/genomes/modules/ ]] || mkdir $MODBASE/genomes/modules/;echo "$MODBASE/genomes/modules was created"
+	[[ -d $MODBASE/user/modules/ ]] || mkdir $MODBASE/user/modules;echo "$MODBASE/user/modules was created"
 	createUser=1
 fi
 
@@ -168,15 +168,33 @@ if [[ $modtype == "P" ]]; then
 fi
 #User Module
 if [[ $modtype == "U" ]]; then
-		checkexists
 		name=$(whoami)
 		read -e -i "$name" -p "Please enter a user name: " input
 		name="${input:-$name}"		
 		PROG=$name
 		BUILD=${name}_${HOSTNAME}
+ 		checkexists
+mkdir -p $DIR/$PROG
+BUILD2=$(echo ${BUILD//./p})
+
+cat << MODFILE > $DIR/$PROG/$BUILD
+#%Module1.0#####################################################################
+##
+setenv  ${PROG}_${BUILD2}_modulefile    "$DIR/$PROG/$BUILD"
+setenv  ${PROG}_${BUILD2}_version       $BUILD
+setenv  ${PROG}_${BUILD2}_name          $PROG
+setenv  ${PROG}_${BUILD2}_createdate    $(date '+%m/%d/%y_%H:%M:%S')
+setenv  ${PROG}_${BUILD2}_creator       $(whoami)
+setenv  ${PROG}_${BUILD2}_dir           $(pwd -P)
+setenv  MODBASE    			$MODBASE
+
+MODFILE
+
+
 		echo "Your user module has been written to $DIR/$PROG/$BUILD"
 		echo "Please add module load $name to your .bashrc file"
 		echo '"echo "module load '$name'" >> .bashrc'
+exit
 fi
 #Genome Module
 if [[ $modtype == "G" ]]; then
@@ -243,27 +261,5 @@ cat << MODFILE >> $DIR/$PROG/$BUILD
 prepend-path    PKG_CONFIG_PATH         $(pwd -P)/lib/pkgconfig
 MODFILE
 fi
-
-# modules that are needed for this program
-#module load gcc
-#how to add modules in modadd command perhaps
-
-# comment out lines that aren't required
-#prepend-path    PATH                    $progdir
-
-
-
-
-#will call print out command for prepare genome module and ask to submit to a queue or does it prepare the submission script?
-
-
-#if statement software
-#find bin directories and other important directories and prepend to PATH in  software module
-
-#if statement project
-#get user ID to have a creator variable 
-#get date for creation date flag
-
-#if statement Genome
 
 
