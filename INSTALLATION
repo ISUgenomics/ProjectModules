@@ -1,9 +1,9 @@
-#INSTALLATION for mod wrapper#
+# INSTALLATION for mod wrapper
 
-##Download the ProjectModules repository##
+## Download the ProjectModules repository
 git clone https://github.com/trinityrnaseq/trinityrnaseq.git
 
-##Create a user module##
+##Create a user module
 cd ProjectModules
 ./mod init -u
 
@@ -22,7 +22,7 @@ The first time you run this command it will create the following folders
     `--modules
 `--project
 
-##Add the following to your bashrc##
+##Add the following to your .bashrc
 
 module load $(whoami)
 
