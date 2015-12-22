@@ -1,7 +1,7 @@
 # INSTALLATION for mod wrapper
 
 ## Download the ProjectModules repository
-git clone https://github.com/trinityrnaseq/trinityrnaseq.git
+git clone git@github.com:ISUgenomics/ProjectModules.git 
 
 ##Create a user module
 cd ProjectModules
