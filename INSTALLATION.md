@@ -9,7 +9,7 @@ cd ProjectModules
 
 This will ask you to set a module file directory
 I put my module files in /data003/GIF on my supercomputer at ISU called condo.
-
+```
 The first time you run this command it will create the following folders
 /data003/GIF/
 `--user
@@ -21,7 +21,7 @@ The first time you run this command it will create the following folders
 `--genomes
     `--modules
 `--project
-
+```
 ##Add the following to your .bashrc
 
 module load $(whoami)
