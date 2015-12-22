@@ -34,16 +34,26 @@ if [ $# -lt 1 ] ; then
         exit 0
 fi
 
-BASE=/data003/GIF/
-#BASE=/data006a/GIF_2a/
+if [ -z "$MODBASE" ]; then
+	echo "Your MODBASE varaible that specifies the directory for your module files is not set"
+	echo "please module load user or set your module files base directory now"
+	read  MODBASE
+	[[ -d $MODBASE/software/modules/ ]] || mkdir $MODBASE/software/modules/
+	[[ -d $MODBASE/project/modules/ ]] || mkdir $MODBASE/project/modules
+	[[ -d $MODBASE/genomes/modules/ ]] || mkdir $MODBASE/genomes/modules/
+	[[ -d $MODBASE/user/modules/ ]] || mkdir $MODBASE/user/modules
+	createUser=1
+fi
+
+##Here the module directories are set.
 #software
-SOFTMODDIR=$BASE/software/modules/
+SOFTMODDIR=$MODBASE/software/modules/
 #Project
-PROJMODDIR=$BASE/project/modules
+PROJMODDIR=$MODBASE/project/modules
 #GENOME
-GENMODDIR=$BASE/genomes/modules/
+GENMODDIR=$MODBASE/genomes/modules/
 #USER
-USERMODDIR=$BASE/user/modules
+USERMODDIR=$MODBASE/user/modules
 
 
 
@@ -51,6 +61,10 @@ OPTIONS=":hspug"
 count=0
 while getopts $OPTIONS option
         do
+#check to see if user needs to create a user module because MODBASE is not set
+if [[ "$createUser" -eq 1 ]]; then
+	option="u"
+fi
 #software module
                 case $option in
                 s)
@@ -85,7 +99,6 @@ while getopts $OPTIONS option
 		printUsage
 		;;
                 esac
-
         done
 shift $((OPTIND-1))
 if [[ $count > 1 ]]; then
@@ -156,14 +169,14 @@ fi
 #User Module
 if [[ $modtype == "U" ]]; then
 		checkexists
-                echo "Please provide a description of this project/software/genome/user and hit enter"
-                read description
-                echo "Please specify any website/wiki associated with this project/software/genome/program and hit enter"
-                read website
-                echo "Please specify the site you downloaded this project/software/genome/program and hit enter"
-                read download
-                echo date
-
+		name=$(whoami)
+		read -e -i "$name" -p "Please enter a user name: " input
+		name="${input:-$name}"		
+		PROG=$name
+		BUILD=${name}_${HOSTNAME}
+		echo "Your user module has been written to $DIR/$PROG/$BUILD"
+		echo "Please add module load $name to your .bashrc file"
+		echo '"echo "module load '$name'" >> .bashrc'
 fi
 #Genome Module
 if [[ $modtype == "G" ]]; then
