@@ -9,7 +9,7 @@ function printUsage () {
 
 Synopsis
 
-    $scriptName [-h | --help] [-s -p]
+    $scriptName [-h | --help] [-s -p -g -u]
 
 Description:
         -s:     to start a software module 	modinit -s

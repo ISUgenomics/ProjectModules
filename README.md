@@ -17,7 +17,7 @@ mod init
 ```
 Synopsis
 
-    modinit [-h | --help] [-s -p]
+    modinit [-h | --help] [-s -p -g -u]
 
 Description:
         -s:     to start a software module      modinit -s
@@ -35,7 +35,7 @@ mod add
 ```
 Synopsis
 
-    ma [-h | --help] <modulename> <VariableNAME> <Filename>
+    mod add [-h | --help] <modulename> <VariableNAME> <Filename>
 
 Description:
         modulename:     is the current module but does not include the version
@@ -58,7 +58,7 @@ mod rm
 ```
 Synopsis
 
-    modrm [-h | --help] <modulename> <VariableNAME> 
+    mod rm [-h | --help] <modulename> <VariableNAME> 
 
 Description:
         modulename:     is the current module but does not include the version
