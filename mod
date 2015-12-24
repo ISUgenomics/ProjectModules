@@ -14,7 +14,7 @@ The most commonly used mod commands are:
         add:		Add an environmental variable to a module    
 	rm:		Remove an environmental variable from a module
 	prepend:	Add Prepend statement for a directory to a variable such as PATH, LIB, PERL5_LIB, LD_LIBRARY_PATH etc
-
+	moduleload:	Adds a line to load a module
 Author
 
     Andrew Severin, Genome Informatics Facilty, Iowa State University
