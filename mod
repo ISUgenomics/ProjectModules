@@ -61,3 +61,7 @@ if [ "$1" = "init" ]; then
 	shift;
         modinit $@
 fi
+if [ "$1" = "moduleload" ]; then
+        shift;
+	modmoduleload $@
+fi
