@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#ma is short for module add variable
+#I am basing it off of github commands git add but only using the first letter of each word
+#add a help message here
+
+scriptName="mod moduleload"
+function printUsage () {
+    cat <<EOF
+
+Synopsis
+
+    $scriptName [-h | --help] <modulename> <modulename2load>
+
+Description:
+	modulename: 	is the current module
+	modulename2load:	is the module you want to add to the module file
+
+Author
+
+    Andrew Severin, Genome Informatics Facilty, Iowa State University
+    severin@iastate.edu
+    1 December, 2015
+
+
+EOF
+}
+
+if [ $# -lt 2 ] ; then
+        printUsage
+        exit 0
+fi
+numparamsM2=$(expr $# - 2)
+MODULE=$1
+#shift;
+#VAR=$@
+VAR=$2
+PWD=$(pwd -P)
+
+unset modulefile
+module load $MODULE
+#Here are some required variables
+modulefile=$(module show $MODULE 2>&1 | head -n 2 | tail -n 1| perl -pe 's/://')
+BUILD=$(basename $modulefile)
+moduledir=$(dirname $modulefile)
+modulename=$(basename $moduledir)
+BUILD2=$(echo ${BUILD//./p})
+
+#need to find a good way to check quickly if the module exists
+#check to see if the module to add exists
+#if [ -d "$MODBASE/$VAR" ]
+#then
+cat << MODFILE >> $modulefile
+module load $VAR
+MODFILE
+echo -e 'module\tload\t'${VAR}'\t\t :was added to '$MODULE''
+#else
+#if it is not a file then add the environmental variable as text
+#echo "This is not a file or directory."
+#fi
+
+
+module load $MODULE
+
