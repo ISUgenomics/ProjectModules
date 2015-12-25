@@ -190,6 +190,9 @@ setenv  ${PROG}_${BUILD2}_createdate    $(date '+%m/%d/%y_%H:%M:%S')
 setenv  ${PROG}_${BUILD2}_creator       $(whoami)
 setenv  ${PROG}_${BUILD2}_dir           $(pwd -P)
 setenv  MODBASE    			$MODBASE
+setenv	COMMON_SCRIPTS			~/isugif/commons_scripts/
+setenv	COMMON_ANALYSES			~/isugif/common_analyses/
+setenv	PROJECT_MODULES			~/isugif/ProjectModules
 
 MODFILE
 
