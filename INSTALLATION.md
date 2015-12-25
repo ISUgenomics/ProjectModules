@@ -1,7 +1,15 @@
 # INSTALLATION for mod wrapper
 
 ## Download the ProjectModules repository
+#this repository has dependencies of other isugif repositories which we will download and place in your home directory
+#it is important that they can be found in ~/isugif/
+cd
+mkdir isugif
+cd isugif
 git clone git@github.com:ISUgenomics/ProjectModules.git 
+git clone git@github.com:ISUgenomics/common_scripts.git
+git clone git@github.com:ISUgenomics/common_analyses.git
+
 
 ##Create a user module
 cd ProjectModules
