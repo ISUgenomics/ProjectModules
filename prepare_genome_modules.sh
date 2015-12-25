@@ -8,9 +8,11 @@ if [ $# -lt 3 ] ; then
         exit 0
 fi
 
+
 #load requried programs to create genome module files
 module purge
-module load perl
+#module load perl
+module load perl/5.20.0
 #module load gmap-gsnap/2015-09-29
 module load gmap/2014-06-10  
 module load bowtie2
@@ -93,7 +95,6 @@ mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
 fi
 
 # build index for GSNAP, Bowtie2, BWA and SAMTOOLS
-module unload perl
 parallel <<FIL
 
 gmap_build -d ${NAME}_${BUILD} -D ${GSEQ}/${NAME}/${BUILD} ${REF}
@@ -101,7 +102,7 @@ bowtie2-build ${REF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
 samtools faidx ${REF}
 bwa index -p ${NAME}_${BUILD} -a bwtsw ${REF}
 makeblastdb -in ${REF} -dbtype 'nucl' -out ${NAME}_${BUILD}_blastdb
-java -Xmx100G -jar picard.jar CreateSequenceDictionary \
+java -Xmx100G -jar $PICARD/picard.jar CreateSequenceDictionary \
   REFERENCE=${REF} \
   OUTPUT=${NAME}_${BUILD}.dict
 FIL
@@ -112,7 +113,7 @@ mv ${NAME}_${BUILD}.dict ${GSEQ}/${NAME}/${BUILD}/
 ln -s ${NAME}_${BUILD}.fai ${NAME}_${BUILD}.fasta.fai
 
 # build intervals and cleanup
-fasta_length.py ${REF} > ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_length.txt
+perl $COMMON_SCRIPTS/fasta_length.py ${REF} > ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_length.txt
 bedtools makewindows -w ${WINDOW} -g  ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_length.txt |  awk '{print $1"\t"$2+1"\t"$3}' >  ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed
 java -Xmx100G -jar $PICARD/picard.jar BedToIntervalList \
   INPUT=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed \
