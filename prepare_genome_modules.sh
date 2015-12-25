@@ -11,22 +11,24 @@ fi
 #load requried programs to create genome module files
 module purge
 module load perl
-module load gmap-gsnap/2015-09-29
-module load parallel
+#module load gmap-gsnap/2015-09-29
+module load gmap/2014-06-10  
 module load bowtie2
 module load bwa
 module load gatk
 module load bedtools
 module load samtools
-
+module load emboss
+module load parallel
+module load $(whoami)
 
 #create local variables 
 NAME="$1"
 BUILD="$2"
-REF="$3"
+REFNAME="$3"
 GFF="$4"
-GSEQ="/data003/GIF/genomes/sequences"
-GMOD="/data003/GIF/genomes/modules"
+GSEQ="$MODBASE/genomes/sequences"
+GMOD="$MODBASE/genomes/modules"
 #intervals set to 100kb
 WINDOW=100000
 
@@ -55,6 +57,7 @@ setenv  GNAME         ${NAME}_${BUILD}
 setenv  GMAPDB        ${GSEQ}/${NAME}/${BUILD}/$GNAME
 setenv  modulefile	${GMOD}/${NAME}/${BUILD}
 setenv	VERSION		${BUILD}
+setenv  "BLASTDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastdb
 setenv  "${NAME}_${BUILD}_genome" ${GSEQ}/${NAME}/${BUILD}/
 setenv  "${NAME}_${BUILD}_GMAPDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
 setenv  "${NAME}_${BUILD}_GNAME" ${NAME}_${BUILD}
@@ -68,14 +71,24 @@ setenv  "${NAME}_${BUILD}_cds" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cds.fas
 setenv  "${NAME}_${BUILD}_gene" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gene.fasta
 setenv  "${NAME}_${BUILD}_pep" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta
 setenv  "${NAME}_${BUILD}_upstream3000" ${NAME}_${BUILD}.upstream3000.fasta
-
+setenv	"${NAME}_${BUILD}_stat" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_stat
+setenv	"${NAME}_${BUILD}_blastdb" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastdb
 MODULEFILE
 
 
+#convert Reference into a standard format
+echo "Format Reference" 
+seqret -sequence ${REFNAME} -outseq temp.fasta
+REF="temp.fasta"
+
+#get statistics on the genome
+new_Assemblathon.pl ${REF}> ${NAME}_${BUILD}_stat
+mv ${NAME}_${BUILD}_stat ${GSEQ}/${NAME}/${BUILD}/
 
 # Create Fasta files from GFF file
 if [ $# -eq 4 ] ; then
-/data005/GIF2/severin/isugif/common_scripts/gff2fasta.pl ${REF} ${GFF} ${NAME}_${BUILD}
+echo "Generate Fasta files from GFF file"
+gff2fasta.pl ${REF} ${GFF} ${NAME}_${BUILD}
 mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
 fi
 
@@ -87,7 +100,8 @@ gmap_build -d ${NAME}_${BUILD} -D ${GSEQ}/${NAME}/${BUILD} ${REF}
 bowtie2-build ${REF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
 samtools faidx ${REF}
 bwa index -p ${NAME}_${BUILD} -a bwtsw ${REF}
-java -Xmx100G -jar /data003/GIF/software/packages/picard_tools/1.130/picard.jar CreateSequenceDictionary \
+makeblastdb -in ${REF} -dbtype 'nucl' -out ${NAME}_${BUILD}_blastdb
+java -Xmx100G -jar picard.jar CreateSequenceDictionary \
   REFERENCE=${REF} \
   OUTPUT=${NAME}_${BUILD}.dict
 FIL
