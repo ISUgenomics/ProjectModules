@@ -10,11 +10,10 @@ fi
 
 
 #load requried programs to create genome module files
-module purge
-#module load perl
-module load perl/5.20.0
-#module load gmap-gsnap/2015-09-29
-module load gmap/2014-06-10  
+#needs BioPerl
+module load perl/5.18.4
+module load gmap-gsnap/2015-09-29
+#module load gmap/2014-06-10  
 module load bowtie2
 module load bwa
 module load gatk
@@ -22,7 +21,10 @@ module load bedtools
 module load samtools
 module load emboss
 module load parallel
+module load picard_tools
 module load $(whoami)
+module load ncbi-blast
+module load python
 
 #create local variables 
 NAME="$1"
@@ -80,18 +82,19 @@ MODULEFILE
 
 #convert Reference into a standard format
 echo "Format Reference" 
-seqret -sequence ${REFNAME} -outseq temp.fasta
-REF="temp.fasta"
+seqret -sequence ${REFNAME} -outseq ${NAME}_${BUILD}.fasta
+REF="${NAME}_${BUILD}.fasta"
 
 #get statistics on the genome
-new_Assemblathon.pl ${REF}> ${NAME}_${BUILD}_stat
+echo "get stats"
+perl $COMMON_SCRIPTS/new_Assemblathon.pl ${REF}> ${NAME}_${BUILD}_stat
 mv ${NAME}_${BUILD}_stat ${GSEQ}/${NAME}/${BUILD}/
 
 # Create Fasta files from GFF file
 if [ $# -eq 4 ] ; then
 echo "Generate Fasta files from GFF file"
-gff2fasta.pl ${REF} ${GFF} ${NAME}_${BUILD}
-mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
+perl $COMMON_SCRIPTS/gff2fasta.pl ${REF} ${GFF} ${NAME}_${BUILD}
+#mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
 fi
 
 # build index for GSNAP, Bowtie2, BWA and SAMTOOLS
@@ -107,8 +110,8 @@ java -Xmx100G -jar $PICARD/picard.jar CreateSequenceDictionary \
   OUTPUT=${NAME}_${BUILD}.dict
 FIL
 # cleanup
+echo "cleanup"
 mv ${REF}.fai ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fai
-mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
 mv ${NAME}_${BUILD}.dict ${GSEQ}/${NAME}/${BUILD}/
 ln -s ${NAME}_${BUILD}.fai ${NAME}_${BUILD}.fasta.fai
 
@@ -121,7 +124,7 @@ java -Xmx100G -jar $PICARD/picard.jar BedToIntervalList \
   OUTPUT=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_gatk_intervals.list
 
 #move reference and GFF file to genome module locations
-
+mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
 cp ${REF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fasta
 cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 
