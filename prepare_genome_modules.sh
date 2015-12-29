@@ -61,7 +61,7 @@ setenv  GNAME         ${NAME}_${BUILD}
 setenv  GMAPDB        ${GSEQ}/${NAME}/${BUILD}/$GNAME
 setenv  modulefile	${GMOD}/${NAME}/${BUILD}
 setenv	VERSION		${BUILD}
-setenv  "BLASTDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastdb
+setenv  "BLASTDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
 setenv  "${NAME}_${BUILD}_genome" ${GSEQ}/${NAME}/${BUILD}/
 setenv  "${NAME}_${BUILD}_GMAPDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
 setenv  "${NAME}_${BUILD}_GNAME" ${NAME}_${BUILD}
