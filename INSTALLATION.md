@@ -1,8 +1,9 @@
 # INSTALLATION for mod wrapper
 
-#### Download the ProjectModules repository
-###this repository has dependencies of other isugif repositories which we will download and place in your home directory
-###it is important that they can be found in ~/isugif/
+Download the ProjectModules repository
+this repository has dependencies of other isugif repositories which we will download and place in your home directory
+it is important that they can be found in ~/isugif/
+
 cd
 mkdir isugif
 cd isugif
