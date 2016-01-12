@@ -13,6 +13,7 @@ cd isugif
 git clone git@github.com:ISUgenomics/ProjectModules.git 
 git clone git@github.com:ISUgenomics/common_scripts.git
 git clone git@github.com:ISUgenomics/common_analyses.git
+#The isugif fold can be located anywhere so long as a softlink to that location is found in your home directory.
 ```
 
 ##Create a user module
