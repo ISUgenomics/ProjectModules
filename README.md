@@ -1,10 +1,11 @@
 
 # ProjectModules
 This program is a wrapper that makes module file creation fast, efficient and reproducible for a multi-member lab. This wrapper script also extends the concept of modules from software version control to project, user and genome version control. The goal of the project is to make it super easy to generate module files and add/remove environmental variables that point to files, folders and text to the module file all from the command line.  It works on all module files to which you have permission to write.  It requires the location of a directory to which you have permission to write (MODBASE).  See 
-```
+
 https://github.com/ISUgenomics/ProjectModules/blob/master/INSTALLATION.md and
+
 http://gif.biotech.iastate.edu/Tutorial/doku.php?id=blog:introducing_mod_wrapper_script_for_unix_module_command 
-```
+
 for more information
 
 The first time you run "mod init -u" it will create a user module and module folders in the specified directory ($MODBASE) as follows.
