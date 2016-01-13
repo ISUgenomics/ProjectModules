@@ -39,8 +39,11 @@ fi
 
 if [ -z "$MODBASE" ]; then
 	echo "Your MODBASE varaible that specifies the directory for your module files is not set"
-	echo "please module load user or set your module files base directory now"
-	read  MODBASE
+#	echo "please module load user or set your module files base directory now"
+       		MODBASE=/home/$(whoami)/privatemodules/
+                read -e -i "$MODBASE" -p "please module load user or set your module files base directory now:" input
+                MODBASE="${input:-$MODBASE}"
+
 	[[ -d $MODBASE/software/modules/ ]] || mkdir -p $MODBASE/software/modules;echo "$MODBASE/software/modules was created"
 	[[ -d $MODBASE/project/modules/ ]] || mkdir -p $MODBASE/project/modules;echo "$MODBASE/project/modules was created"
 	[[ -d $MODBASE/genomes/modules/ ]] || mkdir -p $MODBASE/genomes/modules/;echo "$MODBASE/genomes/modules was created"
