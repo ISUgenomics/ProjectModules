@@ -20,8 +20,9 @@ git clone git@github.com:ISUgenomics/common_analyses.git
 cd ProjectModules
 ./mod init -u
 
-This will ask you to set a module file directory
+This will ask for a module file directory
 I put my module files in /data003/GIF on my supercomputer at ISU called condo.
+This is a local directory that I have permission to write to.
 ```
 The first time you run this command it will create the following folders
 /data003/GIF/
