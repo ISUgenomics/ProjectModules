@@ -10,8 +10,7 @@ fi
 
 
 #load requried programs to create genome module files
-#needs BioPerl
-module load perl/5.18.4
+module purge
 module load gmap-gsnap/2015-09-29
 #module load gmap/2014-06-10  
 module load bowtie2
@@ -110,13 +109,14 @@ java -Xmx100G -jar $PICARD/picard.jar CreateSequenceDictionary \
   OUTPUT=${NAME}_${BUILD}.dict
 FIL
 # cleanup
-echo "cleanup"
-mv ${REF}.fai ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fai
-mv ${NAME}_${BUILD}.dict ${GSEQ}/${NAME}/${BUILD}/
-ln -s ${NAME}_${BUILD}.fai ${NAME}_${BUILD}.fasta.fai
+#echo "cleanup"
+#mv ${REF}.fai ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fai
+#mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
+#mv ${NAME}_${BUILD}.dict ${GSEQ}/${NAME}/${BUILD}/
+#ln -s ${NAME}_${BUILD}.fai ${NAME}_${BUILD}.fasta.fai
 
 # build intervals and cleanup
-perl $COMMON_SCRIPTS/fasta_length.py ${REF} > ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_length.txt
+$COMMON_SCRIPTS/fasta_length.py ${REF} > ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_length.txt
 bedtools makewindows -w ${WINDOW} -g  ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_length.txt |  awk '{print $1"\t"$2+1"\t"$3}' >  ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed
 java -Xmx100G -jar $PICARD/picard.jar BedToIntervalList \
   INPUT=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed \
@@ -128,4 +128,11 @@ mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
 cp ${REF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fasta
 cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 
+#cleanup
+echo "cleanup"
+mv ${REF}.fai ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fai
+mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
+mv ${NAME}_${BUILD}.dict ${GSEQ}/${NAME}/${BUILD}/
+ln -s ${NAME}_${BUILD}.fai ${NAME}_${BUILD}.fasta.fai
+mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
 
