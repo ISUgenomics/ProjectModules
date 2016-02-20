@@ -67,8 +67,8 @@ setenv  "${NAME}_${BUILD}_GNAME" ${NAME}_${BUILD}
 
 setenv  "${NAME}_${BUILD}_intervals100k" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed 
 
-setenv  "${NAME}_${BUILD}_cdna" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fasta
-setenv  "${NAME}_${BUILD}_cdna" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
+setenv  "${NAME}_${BUILD}_genomefasta" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fasta
+setenv  "${NAME}_${BUILD}_gff3" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 setenv  "${NAME}_${BUILD}_cdna" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cdna.fasta
 setenv  "${NAME}_${BUILD}_cds" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cds.fasta
 setenv  "${NAME}_${BUILD}_gene" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gene.fasta
@@ -112,7 +112,7 @@ FIL
 #echo "cleanup"
 #mv ${REF}.fai ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fai
 #mv ${NAME}_${BUILD}* ${GSEQ}/${NAME}/${BUILD}/
-#mv ${NAME}_${BUILD}.dict ${GSEQ}/${NAME}/${BUILD}/
+cp ${NAME}_${BUILD}.dict ${GSEQ}/${NAME}/${BUILD}/
 #ln -s ${NAME}_${BUILD}.fai ${NAME}_${BUILD}.fasta.fai
 
 # build intervals and cleanup
@@ -120,7 +120,7 @@ $COMMON_SCRIPTS/fasta_length.py ${REF} > ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUIL
 bedtools makewindows -w ${WINDOW} -g  ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_length.txt |  awk '{print $1"\t"$2+1"\t"$3}' >  ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed
 java -Xmx100G -jar $PICARD/picard.jar BedToIntervalList \
   INPUT=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed \
-  SEQUENCE_DICTIONARY=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.dict \
+  SEQUENCE_DICTIONARY=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.dict \
   OUTPUT=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_gatk_intervals.list
 
 #move reference and GFF file to genome module locations
