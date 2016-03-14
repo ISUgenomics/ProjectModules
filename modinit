@@ -46,7 +46,7 @@ if [ -z "$MODBASE" ]; then
 
 	[[ -d $MODBASE/software/modules/ ]] || mkdir -p $MODBASE/software/modules;echo "$MODBASE/software/modules was created"
 	[[ -d $MODBASE/project/modules/ ]] || mkdir -p $MODBASE/project/modules;echo "$MODBASE/project/modules was created"
-	[[ -d $MODBASE/genomes/modules/ ]] || mkdir -p $MODBASE/genomes/modules/;echo "$MODBASE/genomes/modules was created"
+	[[ -d $MODBASE/genome/modules/ ]] || mkdir -p $MODBASE/genomes/modules/;echo "$MODBASE/genomes/modules was created"
 	[[ -d $MODBASE/user/modules/ ]] || mkdir -p $MODBASE/user/modules;echo "$MODBASE/user/modules was created"
 	createUser=1
 fi
