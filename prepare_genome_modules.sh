@@ -197,7 +197,7 @@ createBWADB () {
         if  [ $commandcheck = "TRUE" ]; then
 	bwa index -p ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD} -a bwtsw ${REF}
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
-setenv  "${NAME}_${BUILD}_genomefasta_bwaDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastdb
+setenv  "${NAME}_${BUILD}_genomefasta_bwaDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_bwaDB
 MODULEFILE
 	else
         echo "bwa script not found"
@@ -213,7 +213,7 @@ createBLASTDBREF () {
         if  [ $commandcheck = "TRUE" ]; then
 	makeblastdb -in ${REF} -dbtype 'nucl' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.blastdb
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
-setenv  "${NAME}_${BUILD}_genomefasta_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastdb
+setenv  "${NAME}_${BUILD}_genomefasta_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastDB
 MODULEFILE
 	else
         echo "makeblastdb script not found"
@@ -226,10 +226,12 @@ createBLASTDBPEP () {
         module load ncbi-blast
         local commandcheck=`checkCommand makeblastdb`
         if  [ $commandcheck = "TRUE" ]; then
+	 if [ $# -eq 4 ] ; then
         makeblastdb -in ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta  -dbtype 'prot' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.blastdb
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
-setenv  "${NAME}_${BUILD}_pep_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep_blastdb
+setenv  "${NAME}_${BUILD}_pep_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep_blastDB
 MODULEFILE
+	 fi
 	else
         echo "makeblastdb script not found"
         echo "makeblastdb may not be installed"
@@ -273,22 +275,21 @@ MODULEFILE
 	fi
 }
 createCDBFasta () {
-module load cdbfasta
-cdbfasta 
-
-cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cdna.fasta
-cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cds.fasta
-cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gene.fasta
-cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta
-cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.upstream3000.fasta 
-cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
+	if [ $# -eq 4 ] ; then
+		module load cdbfasta
+		cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cdna.fasta
+		cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cds.fasta
+		cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gene.fasta
+		cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta
+		cdbfasta ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.upstream3000.fasta 
+		cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
 setenv  "${NAME}_${BUILD}_cdna_cidx" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cdna.fasta.cidx
 setenv  "${NAME}_${BUILD}_cds_cidx" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cds.fasta.cidx
 setenv  "${NAME}_${BUILD}_gene_cidx" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gene.fasta.cidx
 setenv  "${NAME}_${BUILD}_pep_cidx" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta.cidx
 setenv  "${NAME}_${BUILD}_upstream3000_cidx" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.upstream3000.fasta.cidx
 MODULEFILE
-
+	fi
 
 }
 
