@@ -14,9 +14,10 @@ main() {
 	createFaidx
 	createBWADB
 	createBLASTDBREF
-	createBLASTDBPEP
+	createBLASTDBPEP $@
 	createREFdict
 	createRefIntervals
+	createCDBFasta $@
 }
 
 
