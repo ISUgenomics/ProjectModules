@@ -212,7 +212,7 @@ createBLASTDBREF () {
 	module load ncbi-blast
         local commandcheck=`checkCommand makeblastdb`
         if  [ $commandcheck = "TRUE" ]; then
-	makeblastdb -in ${REF} -parse_seqids -dbtype 'nucl' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.blastdb
+	makeblastdb -in ${REF} -parse_seqids -dbtype 'nucl' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.blastDB
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
 setenv  "${NAME}_${BUILD}_genomefasta_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastDB
 MODULEFILE
@@ -228,7 +228,7 @@ createBLASTDBPEP () {
         local commandcheck=`checkCommand makeblastdb`
         if  [ $commandcheck = "TRUE" ]; then
 	 if [ $# -eq 4 ] ; then
-        makeblastdb -in ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta  -parse_seqids -dbtype 'prot' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.blastdb
+        makeblastdb -in ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta  -parse_seqids -dbtype 'prot' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.blastDB
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
 setenv  "${NAME}_${BUILD}_pep_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep_blastDB
 MODULEFILE
