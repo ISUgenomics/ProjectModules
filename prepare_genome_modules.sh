@@ -81,9 +81,9 @@ setenv  GENOMEFASTA	 ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.fasta
 setenv  GNAME         ${NAME}_${BUILD}
 setenv  modulefile	${GMOD}/${NAME}/${BUILD}
 setenv	VERSION		${BUILD}
-setenv  ${PROG}_${BUILD}_createdate    $(date '+%m/%d/%y_%H:%M:%S')
-setenv  ${PROG}_${BUILD}_creator       $(whoami)
-setenv  ${PROG}_${BUILD}_dir           $(pwd -P)
+setenv  ${NAME}_${BUILD}_createdate    $(date '+%m/%d/%y_%H:%M:%S')
+setenv  ${NAME}_${BUILD}_creator       $(whoami)
+setenv  ${NAME}_${BUILD}_dir           $(pwd -P)
 MODULEFILE
 }
 
