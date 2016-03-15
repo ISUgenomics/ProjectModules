@@ -139,6 +139,7 @@ setenv  "${NAME}_${BUILD}_gene" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gene.f
 setenv  "${NAME}_${BUILD}_pep" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta
 setenv  "${NAME}_${BUILD}_upstream3000" ${NAME}_${BUILD}.upstream3000.fasta
 MODULEFILE
+cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 	fi
 }
 
@@ -214,7 +215,7 @@ createBLASTDBREF () {
         if  [ $commandcheck = "TRUE" ]; then
 	makeblastdb -in ${REF} -parse_seqids -dbtype 'nucl' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.blastDB
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
-setenv  "${NAME}_${BUILD}_genomefasta_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_blastDB
+setenv  "${NAME}_${BUILD}_genomefasta_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.blastDB
 MODULEFILE
 	else
         echo "makeblastdb script not found"
@@ -230,7 +231,7 @@ createBLASTDBPEP () {
 	 if [ $# -eq 4 ] ; then
         makeblastdb -in ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta  -parse_seqids -dbtype 'prot' -out ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.blastDB
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
-setenv  "${NAME}_${BUILD}_pep_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep_blastDB
+setenv  "${NAME}_${BUILD}_pep_blastDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.blastDB
 MODULEFILE
 	 fi
 	else
