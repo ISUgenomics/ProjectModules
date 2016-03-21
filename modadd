@@ -69,7 +69,7 @@ BUILD2=$(echo ${BUILD//./p})
 VAR=$(echo $VAR | perl -pe 's/[-\.]/_/g')
 
 #check to see if it is a file
-if [ -f "$FILE" ]
+if [ -f "$FILE" | [ -d "$FILE" ]
 then
 cat << MODFILE >> $modulefile
 setenv	${modulename}_${BUILD2}_${VAR}	$PWD/${FILE}
