@@ -137,7 +137,7 @@ setenv  "${NAME}_${BUILD}_cdna" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cdna.f
 setenv  "${NAME}_${BUILD}_cds" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.cds.fasta
 setenv  "${NAME}_${BUILD}_gene" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gene.fasta
 setenv  "${NAME}_${BUILD}_pep" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.pep.fasta
-setenv  "${NAME}_${BUILD}_upstream3000" ${NAME}_${BUILD}.upstream3000.fasta
+setenv  "${NAME}_${BUILD}_upstream3000" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.upstream3000.fasta
 MODULEFILE
 cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 	fi
@@ -267,8 +267,8 @@ createRefIntervals () {
 	  SEQUENCE_DICTIONARY=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.dict \
 	  OUTPUT=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_gatk_intervals.list
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
-setenv  GENOMEINTERVALS ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_gatk_coords.bed
-setenv  "${NAME}_${BUILD}_genome_intervals" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_gatk_coords.bed 
+setenv  GENOMEINTERVALS ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed
+setenv  "${NAME}_${BUILD}_genome_intervals" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_100kb_coords.bed 
 MODULEFILE
 	else
         echo "bedtools script not found"
