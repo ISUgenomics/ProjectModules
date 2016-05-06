@@ -90,7 +90,7 @@ MODULEFILE
 
 #convert Reference into a standard format
 convertRef () {
-	module load emboss
+	module load LAS/emboss/6.5.7 
 	echo "Format Reference"
 	local commandcheck=`checkCommand seqret`
 	if  [ $commandcheck = "TRUE" ]; then 
@@ -147,7 +147,7 @@ cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 # build index for GSNAP, Bowtie2, BWA and SAMTOOLS
 
 createGMAPDB () {
-	module load gmap-gsnap
+	module load LAS/gsnap/20151231  
 	local commandcheck=`checkCommand gmap_build`
 	if  [ $commandcheck = "TRUE" ]; then
 	gmap_build -d ${NAME}_${BUILD} -D ${GSEQ}/${NAME}/${BUILD} ${REF}
@@ -199,7 +199,7 @@ createBWADB () {
         if  [ $commandcheck = "TRUE" ]; then
 	bwa index -p ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD} -a bwtsw ${REF}
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
-setenv  "${NAME}_${BUILD}_genomefasta_bwaDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}_bwaDB
+setenv  "${NAME}_${BUILD}_genomefasta_bwaDB" ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
 MODULEFILE
 	else
         echo "bwa script not found"
