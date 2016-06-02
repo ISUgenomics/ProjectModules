@@ -45,13 +45,14 @@ checkCommand () {
 #create Variable names 
 #createVarFun () {
 module load `whoami`
-export	NAME="$1"
+export	NAME=`basename $1` 
+export	DIRNAME=`dirname $1`
 export	BUILD="$2"
 export	BUILD=$(echo ${BUILD//./p})
 export	REFNAME="$3"
 export	GFF="$4"
-export	GSEQ="$MODBASE/genome/sequences"
-export	GMOD="$MODBASE/genome/modules"
+export	GSEQ="$MODBASE/genome/sequences/$DIRNAME/"
+export	GMOD="$MODBASE/genome/modules/$DIRNAME/"
 	#intervals set to 100kb
 export	WINDOW=100000
 	mkdir -p ${GSEQ}/${NAME}/${BUILD}
