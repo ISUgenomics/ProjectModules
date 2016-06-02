@@ -148,7 +148,7 @@ cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 # build index for GSNAP, Bowtie2, BWA and SAMTOOLS
 
 createGMAPDB () {
-	module load LAS/gsnap/20151231  
+	module load gmap-gsnap 
 	local commandcheck=`checkCommand gmap_build`
 	if  [ $commandcheck = "TRUE" ]; then
 	gmap_build -d ${NAME}_${BUILD} -D ${GSEQ}/${NAME}/${BUILD} ${REF}
