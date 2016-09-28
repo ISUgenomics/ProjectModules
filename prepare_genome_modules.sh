@@ -44,9 +44,9 @@ checkCommand () {
 
 #create Variable names 
 #createVarFun () {
-module load `whoami`
-export	NAME=`basename $1` 
-export	DIRNAME=`dirname $1`
+module load $(whoami)
+export	NAME=$(basename $1) 
+export	DIRNAME=$(dirname $1)
 export	BUILD="$2"
 export	BUILD=$(echo ${BUILD//./p})
 export	REFNAME="$3"
@@ -148,7 +148,7 @@ cp ${GFF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.gff3
 # build index for GSNAP, Bowtie2, BWA and SAMTOOLS
 
 createGMAPDB () {
-	module load gmap-gsnap 
+	module load LAS/gsnap/20160816
 	local commandcheck=`checkCommand gmap_build`
 	if  [ $commandcheck = "TRUE" ]; then
 	gmap_build -d ${NAME}_${BUILD} -D ${GSEQ}/${NAME}/${BUILD} ${REF}
@@ -165,7 +165,7 @@ MODULEFILE
 
 
 createBowtie2DB () {
-	module load bowtie2
+	module load bowtie/2.2.8
         local commandcheck=`checkCommand bowtie2-build`
         if  [ $commandcheck = "TRUE" ]; then
 	bowtie2-build ${REF} ${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}
@@ -243,8 +243,8 @@ MODULEFILE
 }
 
 createREFdict () {
-	module load picard_tools
-	java -Xmx100G -jar $PICARD/picard.jar CreateSequenceDictionary \
+	module load picard
+	java -Xmx100G -jar ${PICARD_HOME}/picard.jar CreateSequenceDictionary \
 	  REFERENCE=${REF} \
 	  OUTPUT=${GSEQ}/${NAME}/${BUILD}/${NAME}_${BUILD}.dict
 cat <<MODULEFILE >> ${GMOD}/${NAME}/${BUILD}
