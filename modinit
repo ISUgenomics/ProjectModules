@@ -44,22 +44,22 @@ if [ -z "$MODBASE" ]; then
                 read -e -i "$MODBASE" -p "please module load user or set your module files base directory now:" input
                 MODBASE="${input:-$MODBASE}"
 
-	[[ -d $MODBASE/software/modules/ ]] || mkdir -p $MODBASE/software/modules;echo "$MODBASE/software/modules was created"
-	[[ -d $MODBASE/project/modules/ ]] || mkdir -p $MODBASE/project/modules;echo "$MODBASE/project/modules was created"
-	[[ -d $MODBASE/genome/modules/ ]] || mkdir -p $MODBASE/genome/modules/;echo "$MODBASE/genome/modules was created"
-	[[ -d $MODBASE/user/modules/ ]] || mkdir -p $MODBASE/user/modules;echo "$MODBASE/user/modules was created"
+	[[ -d $MODBASE/software/ ]] || mkdir -p $MODBASE/software;echo "$MODBASE/software was created"
+	[[ -d $MODBASE/project/ ]] || mkdir -p $MODBASE/project;echo "$MODBASE/project was created"
+	[[ -d $MODBASE/genome/ ]] || mkdir -p $MODBASE/genome/;echo "$MODBASE/genome was created"
+	[[ -d $MODBASE/user/ ]] || mkdir -p $MODBASE/user;echo "$MODBASE/user was created"
 	createUser=1
 fi
 
 ##Here the module directories are set.
 #software
-SOFTMODDIR=$MODBASE/software/modules/
+SOFTMODDIR=$MODBASE/software/
 #Project
-PROJMODDIR=$MODBASE/project/modules
+PROJMODDIR=$MODBASE/project
 #GENOME
-GENMODDIR=$MODBASE/genome/modules/
+GENMODDIR=$MODBASE/genome/
 #USER
-USERMODDIR=$MODBASE/user/modules
+USERMODDIR=$MODBASE/user
 
 
 
@@ -178,7 +178,7 @@ if [[ $modtype == "U" ]]; then
 		read -e -i "$name" -p "Please enter a user name: " input
 		name="${input:-$name}"		
 		PROG=$name
-		BUILD=${name}_${HOSTNAME}
+		BUILD=${name}_${HOSTNAME%%.*}
  		checkexists
 mkdir -p $DIR/$PROG
 BUILD2=$(echo ${BUILD//./p})
